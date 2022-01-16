@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\MeController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Posts\PostController;
+use App\Http\Controllers\Posts\SubjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('me',MeController::class);
+    Route::prefix('posts')->namespace('Posts')->group(function (){
+        Route::get('',[PostController::class,'index'])->withoutMiddleware('auth:sanctum');
+        Route::get('{post:slug}',[PostController::class,'show'])->withoutMiddleware('auth:sanctum');
+        Route::get('subject/{subject:slug}',[SubjectController::class,'show'])->withoutMiddleware('auth:sanctum');
+    });
 });
